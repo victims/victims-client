@@ -1,0 +1,98 @@
+#!/usr/bin/env python
+# Copyright 2010
+# Steve 'Ashcrow' Milner <stevem@gnulinux.net>
+#
+# This software may be freely redistributed under the terms of the GNU
+# general public license.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+"""
+Create repo wrapper to scan new packages before executing createrepo.
+"""
+
+import gzip
+import subprocess
+import sys
+import os
+
+import lxml.etree
+
+
+class CreaterepoWrapper(object):
+    """
+    Createrepo wrapper.
+    """
+
+    def __init__(self, repo_path):
+        """
+        Creates an instance.
+
+        :Parameters:
+           - `repo_path`: the full path to a repo
+        """
+        self._repo_path = repo_path
+        packages = self._get_package_list()
+        ignored = self._get_ignore_list()
+
+        for ignored in self._get_ignore_list():
+            if ignored in packages:
+                del packages[packages.index(ignored)]
+        self.new_packages = packages
+
+    def _get_ignore_list(self):
+        """
+        Gets a list of packages already in the repo which should be ignored.
+        """
+        try:
+            xml_path = os.path.sep.join(
+                [self._repo_path, 'repodata', 'primary.xml.gz'])
+            ignore = []
+            parser = lxml.etree.XMLParser()
+            xml = lxml.etree.XML(gzip.open(xml_path).read(), parser)
+        except IOError:
+            # No data in the xml file
+            return []
+        for element in xml.iter(
+            "{http://linux.duke.edu/metadata/common}location"):
+            package_path = (
+                os.path.sep.join([self._repo_path, element.get('href')]))
+            ignore.append(os.path.relpath(package_path))
+        return ignore
+
+    def _get_package_list(self):
+        """
+        Finds all rpms in a directory.
+        """
+        files = []
+        for item in os.listdir(self._repo_path):
+            if os.path.isfile(item) and item.endswith('.rpm'):
+                files.append(os.path.relpath(item))
+        return files
+
+    def execute(self, args):
+        """
+        Execute scanning and then createrepo.
+
+        :Parameters:
+           - `args`: command line args to pass through
+        """
+        if len(self.new_packages) > 0:
+            scan_command = ['victims-scan', '-l'] + self.new_packages
+            if subprocess.call(scan_command) != 0:
+                print("Please fix the issues above and re-run.")
+                raise SystemExit(1)
+        raise SystemExit(subprocess.call(['createrepo'] + args))
+
+
+def main():
+    """
+    Main entry point.
+    """
+    cw = CreaterepoWrapper(sys.argv[1])
+    cw.execute(sys.argv[1:])
+
+
+if __name__ == '__main__':
+    main()
