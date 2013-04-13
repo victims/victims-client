@@ -39,6 +39,7 @@ setup(
     package_dir={
         'victims': 'src/victims',
     },
+    install_requires=['sqlalchemy', 'argparse', 'configobj'],
     packages=['victims', 'victims.scripts', 'victims.archivers'],
 
     entry_points={
