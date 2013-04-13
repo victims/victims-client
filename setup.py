@@ -30,8 +30,8 @@ setup(
     long_description="Package scanning tools to try to catch bad 'packages'",
     author="Steve 'Ashcrow' Milner",
     author_email='stevem@gnulinux.net',
-    url="http://bitbucket.org/ashcrow/victims",
-    download_url="http://bitbucket.org/ashcrow/victims/downloads/",
+    url="https://github.com/victims/victims-client/",
+    download_url="https://github.com/victims/victims-client/",
     platforms=['any'],
 
     license="GPL",
