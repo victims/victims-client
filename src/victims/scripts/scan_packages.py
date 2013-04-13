@@ -1,4 +1,4 @@
-# Copyright 2010,
+# Copyright 2010-2013,
 # Steve 'Ashcrow' Milner <stevem@gnulinux.net>
 #
 # This software may be freely redistributed under the terms of the GNU
