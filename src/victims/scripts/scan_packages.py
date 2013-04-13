@@ -13,7 +13,7 @@ Functions which will be exposed as command line scripts.
 
 __docformat__ = 'restructuredtext'
 
-from optparse import OptionParser
+from argparse import ArgumentParser
 
 import sqlalchemy.orm
 import sqlalchemy.sql.expression
@@ -36,28 +36,31 @@ def main():
     # Default items which must be generated
     default_conf = _get_default_conf_loc()
 
-    parser = OptionParser()
-    parser.add_option(
+    parser = ArgumentParser()
+    parser.add_argument(
         "-c", "--config", dest="config",
         default=default_conf, help="what config file to use",
         metavar="CONFIG")
-    parser.add_option(
+    parser.add_argument(
         "-l", "--look-inside", dest="look_inside",
         action="store_true", default=False,
         help="If packages should be scanned for hidden packages")
+    parser.add_argument(
+        'paths', metavar='PATHS', type=str, nargs='+',
+        help='Paths to look in')
 
-    (options, args) = parser.parse_args()
-    _require_conf(options, parser)
+    args = parser.parse_args()
+    _require_conf(args, parser)
 
-    conf = Config(options.config)
+    conf = Config(args.config)
     c = Connection(conf)
 
-    finder = PackageFinder(look_inside=options.look_inside)
+    finder = PackageFinder(look_inside=args.look_inside)
     hasher = HashGenerator()
 
     count = 0
     # For each path ...
-    for check_path in args:
+    for check_path in args.paths:
         data, formats = finder(check_path)
         count += len(data)
         # Add each package in a packages object so we can query faster

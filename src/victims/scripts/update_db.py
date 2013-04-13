@@ -16,7 +16,7 @@ __docformat__ = 'restructuredtext'
 import json
 import urllib
 
-from optparse import OptionParser
+from argparse import ArgumentParser
 
 import sqlalchemy.orm
 import sqlalchemy.sql.expression
@@ -31,24 +31,24 @@ def main():
     Updates the database.
     """
     default_conf = _get_default_conf_loc()
-    parser = OptionParser()
-    parser.add_option(
+    parser = ArgumentParser()
+    parser.add_argument(
         "-c", "--config", dest="config",
         default=default_conf, help="what config file to use",
         metavar="CONFIG")
-    parser.add_option(
+    parser.add_argument(
         "-f", "--force-version", dest="version",
         help="Force update from a specific version",
         metavar="VERSION")
 
-    (options, args) = parser.parse_args()
-    _require_conf(options, parser)
+    args = parser.parse_args()
+    _require_conf(args, parser)
 
-    conf = Config(options.config)
+    conf = Config(args.config)
     c = Connection(conf)
 
-    if options.version:
-        current_db = int(options.version)
+    if args.version:
+        current_db = int(args.version)
     else:
         try:
             current_db = c.session.query(CVEMap).order_by(

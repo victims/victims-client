@@ -27,15 +27,15 @@ def _get_default_conf_loc():
     return default_conf
 
 
-def _require_conf(options, parser):
+def _require_conf(args, parser):
     """
     Checks to verify th config exists, else prints help and exists.
 
     :Parameters:
-       - `options`: the options the parser returned
+       - `args`: the args the parser returned
        - `parser`: the option parser itself
     """
-    if not os.path.isfile(options.config):
+    if not os.path.isfile(args.config):
         parser.print_help()
-        print("\n" + options.config + " is not valid or does not exist ...")
+        print("\n" + args.config + " is not valid or does not exist ...")
         raise SystemExit(1)

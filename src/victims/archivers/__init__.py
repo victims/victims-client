@@ -19,8 +19,6 @@ import zipfile
 
 from StringIO import StringIO
 
-import cpioarchive
-
 
 class Archive(object):
     """
@@ -127,6 +125,8 @@ class RPMArchive(object):
         :Paramteres:
            - `path`: path to the rpm
         """
+        import cpioarchive
+
         # XXX: HACK, but couldn't find a better way :-(
         p = subprocess.Popen(["rpm2cpio", path], stdout=subprocess.PIPE)
         self.__cpio_data = cpioarchive.CpioArchive(

@@ -1,4 +1,4 @@
-# Copyright 2010-2011
+# Copyright 2010-2013,
 # Steve Milner <stevem@gnulinux.net>
 #
 # This software may be freely redistributed under the terms of the GNU
@@ -15,7 +15,7 @@ __docformat__ = 'restructuredtext'
 
 import json
 
-from optparse import OptionParser
+from argparse import ArgumentParser
 
 import sqlalchemy.orm
 import sqlalchemy.sql.expression
@@ -30,37 +30,37 @@ def main():
     Prints out metadata for a specific package-version.
     """
     default_conf = _get_default_conf_loc()
-    parser = OptionParser()
-    parser.add_option(
+    parser = ArgumentParser()
+    parser.add_argument(
         "-c", "--config", dest="config",
         default=default_conf, help="what config file to use",
         metavar="CONFIG")
-    parser.add_option(
+    parser.add_argument(
         "-p", "--package-name", dest="name",
         help="Name of the package", metavar="NAME")
-    parser.add_option(
+    parser.add_argument(
         "-v", "--package-version", dest="version",
         help="Version of the package", metavar="VERSION")
-    parser.add_option(
+    parser.add_argument(
         "-j", "--json-output", dest="json",
         action="store_true", help="Outout as json")
 
-    (options, args) = parser.parse_args()
+    args = parser.parse_args()
 
-    if not options.name or not options.version:
+    if not args.name or not args.version:
         parser.print_help()
         parser.error('You must provide a name and version')
 
-    _require_conf(options, parser)
+    _require_conf(args, parser)
 
-    conf = Config(options.config)
+    conf = Config(args.config)
     c = Connection(conf)
 
     try:
         results = c.session.query(CVEMap).filter(
-            CVEMap.name == options.name).filter(
-                CVEMap.version == options.version)
-        if options.json:
+            CVEMap.name == args.name).filter(
+                CVEMap.version == args.version)
+        if args.json:
             data = []
             for result in results:
                 inst = result.__dict__

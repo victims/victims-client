@@ -16,7 +16,7 @@ __docformat__ = 'restructuredtext'
 import os
 import re
 
-from optparse import OptionParser
+from argparse import ArgumentParser
 
 from victims import PackageFinder, HashGenerator
 
@@ -25,15 +25,18 @@ def main():
     """
     Find sha512sum's in archives.
     """
-    parser = OptionParser()
-    parser.add_option(
+    parser = ArgumentParser()
+    parser.add_argument(
         "-n", "--name", dest="name",
         help="name or regex of the file(s) to look for", metavar="NAME")
+    parser.add_argument(
+        'paths', metavar='PATHS', type=str, nargs='+',
+        help='Paths to look in')
 
-    (options, args) = parser.parse_args()
+    args = parser.parse_args()
 
     try:
-        rx = re.compile(options.name)
+        rx = re.compile(args.name)
     except Exception:
         parser.print_help()
         print('\nYou must provide a string or valid regex with --name/-n')
@@ -43,7 +46,7 @@ def main():
     hasher = HashGenerator()
 
     # For each path ...
-    for check_path in args:
+    for check_path in args.paths:
         data, formats = finder(check_path)
         for package in data:
             result = rx.findall(os.path.basename(package.name))
