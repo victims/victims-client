@@ -32,10 +32,12 @@ def main():
     """
     default_conf = _get_default_conf_loc()
     parser = OptionParser()
-    parser.add_option("-c", "--config", dest="config",
+    parser.add_option(
+        "-c", "--config", dest="config",
         default=default_conf, help="what config file to use",
         metavar="CONFIG")
-    parser.add_option("-f", "--force-version", dest="version",
+    parser.add_option(
+        "-f", "--force-version", dest="version",
         help="Force update from a specific version",
         metavar="VERSION")
 

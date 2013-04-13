@@ -80,5 +80,5 @@ class Connection(object):
             config['database'], prefix='')
         self.metadata = Base.metadata
         self.metadata.create_all(self.engine)
-        self.session = sqlalchemy.orm.sessionmaker(autoflush=True,
-            autocommit=True, bind=self.engine)()
+        self.session = sqlalchemy.orm.sessionmaker(
+            autoflush=True, autocommit=True, bind=self.engine)()

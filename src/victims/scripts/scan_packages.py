@@ -13,8 +13,6 @@ Functions which will be exposed as command line scripts.
 
 __docformat__ = 'restructuredtext'
 
-import os
-
 from optparse import OptionParser
 
 import sqlalchemy.orm
@@ -39,10 +37,12 @@ def main():
     default_conf = _get_default_conf_loc()
 
     parser = OptionParser()
-    parser.add_option("-c", "--config", dest="config",
+    parser.add_option(
+        "-c", "--config", dest="config",
         default=default_conf, help="what config file to use",
         metavar="CONFIG")
-    parser.add_option("-l", "--look-inside", dest="look_inside",
+    parser.add_option(
+        "-l", "--look-inside", dest="look_inside",
         action="store_true", default=False,
         help="If packages should be scanned for hidden packages")
 

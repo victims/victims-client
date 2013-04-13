@@ -26,14 +26,15 @@ def main():
     Find sha512sum's in archives.
     """
     parser = OptionParser()
-    parser.add_option("-n", "--name", dest="name",
+    parser.add_option(
+        "-n", "--name", dest="name",
         help="name or regex of the file(s) to look for", metavar="NAME")
 
     (options, args) = parser.parse_args()
 
     try:
         rx = re.compile(options.name)
-    except Exception, ex:
+    except Exception:
         parser.print_help()
         print('\nYou must provide a string or valid regex with --name/-n')
         raise SystemExit(1)

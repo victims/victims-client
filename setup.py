@@ -17,7 +17,7 @@ __docformat__ = 'restructuredtext'
 
 import sys
 
-from setuptools import setup, find_packages
+from setuptools import setup
 
 sys.path.insert(0, 'src/')
 
@@ -42,11 +42,11 @@ setup(
     packages=['victims', 'victims.scripts', 'victims.archivers'],
 
     entry_points={
-        'console_scripts':
-            ['victims-scan = victims.scripts.scan_packages:main',
-             'victims-update-db = victims.scripts.update_db:main',
-             'victims-find-hash = victims.scripts.find_hash:main',
-             'victims-version-check = victims.scripts.version_check:main'],
+        'console_scripts': [
+            'victims-scan = victims.scripts.scan_packages:main',
+            'victims-update-db = victims.scripts.update_db:main',
+            'victims-find-hash = victims.scripts.find_hash:main',
+            'victims-version-check = victims.scripts.version_check:main'],
     },
 
     classifiers=[
@@ -57,4 +57,4 @@ setup(
         'Intended Audience :: Developers',
         'Intended Audience :: Information Technology',
         'Programming Language :: Python'],
-    )
+)

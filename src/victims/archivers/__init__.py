@@ -27,8 +27,8 @@ class Archive(object):
     Gets names, fileobjects and parent for file archives.
     """
 
-    __slots__ = ['__file_path', '__name_func', '__open_func',
-        '__archive_obj']
+    __slots__ = [
+        '__file_path', '__name_func', '__open_func', '__archive_obj']
 
     def __init__(self, path):
         """
@@ -43,7 +43,7 @@ class Archive(object):
 
         lower_file = os.path.basename(self.__file_path.lower())
         if (lower_file.endswith('.jar') or lower_file.endswith('.zip') or
-            lower_file.endswith('.war')):
+                lower_file.endswith('.war')):
             self.__handle_zip()
         elif lower_file.endswith('.tar.gz'):
             self.__handle_tarball()

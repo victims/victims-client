@@ -13,9 +13,7 @@ Searches for files and produces hashes from an archive.
 
 __docformat__ = 'restructuredtext'
 
-import os
 import json
-import re
 
 from optparse import OptionParser
 
@@ -33,14 +31,18 @@ def main():
     """
     default_conf = _get_default_conf_loc()
     parser = OptionParser()
-    parser.add_option("-c", "--config", dest="config",
+    parser.add_option(
+        "-c", "--config", dest="config",
         default=default_conf, help="what config file to use",
         metavar="CONFIG")
-    parser.add_option("-p", "--package-name", dest="name",
+    parser.add_option(
+        "-p", "--package-name", dest="name",
         help="Name of the package", metavar="NAME")
-    parser.add_option("-v", "--package-version", dest="version",
+    parser.add_option(
+        "-v", "--package-version", dest="version",
         help="Version of the package", metavar="VERSION")
-    parser.add_option("-j", "--json-output", dest="json",
+    parser.add_option(
+        "-j", "--json-output", dest="json",
         action="store_true", help="Outout as json")
 
     (options, args) = parser.parse_args()

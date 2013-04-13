@@ -17,11 +17,9 @@ __author__ = "Steve 'Ashcrow' Milner"
 __license__ = 'GPLv3+'
 
 import hashlib
-import json
 import os
-import zipfile
 
-from victims.archivers import Archive, RPMArchive
+from victims.archivers import Archive
 
 
 class HashGenerator(object):
@@ -115,9 +113,10 @@ class PackageFinder(object):
 
     __slots__ = ['__packages', '__look_inside']
 
-    def __init__(self,
-        packages=('jar', 'war', 'egg', 'zip', 'tar.gz', 'rpm'),
-        look_inside=False):
+    def __init__(
+            self,
+            packages=('jar', 'war', 'egg', 'zip', 'tar.gz', 'rpm'),
+            look_inside=False):
         """
         Creates the PackageFinder instance with suffix to look for.
 
@@ -167,12 +166,14 @@ class PackageFinder(object):
                 internal_file = archive.open(file_name)
                 # Zips use fileobj.name
                 try:
-                    found.append(Package(internal_file.name,
-                        internal_file, internal_file.fileobj.name))
+                    found.append(Package(
+                        internal_file.name, internal_file,
+                        internal_file.fileobj.name))
                 # Tarballs use fileobj.fileobj.name
                 except:
-                    found.append(Package(internal_file.name,
-                        internal_file, internal_file.fileobj.fileobj.name))
+                    found.append(Package(
+                        internal_file.name, internal_file,
+                        internal_file.fileobj.fileobj.name))
         return found
 
     def _scan(self, root, files):
