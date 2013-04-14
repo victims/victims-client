@@ -9,7 +9,7 @@ See COPYING or LICENSE file.
 
 Requires
 --------
-* Python 2.4+
+* Python 2.5+
 * sqlalchemy 6.0+
 * python-cpio 0.1+
 * argparse (if using older versions of python)
