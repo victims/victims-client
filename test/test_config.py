@@ -23,7 +23,7 @@ class TestConfig(unittest.TestCase):
     """
 
     conf_path = os.path.sep.join([
-        os.path.realpath(os.path.curdir), '..', 'conf', 'example.cfg'])
+        os.path.realpath(os.path.curdir), 'conf', 'example.cfg'])
 
     def test_basic_interface(self):
         """
