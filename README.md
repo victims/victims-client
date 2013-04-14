@@ -1,5 +1,6 @@
 victims-client
 ==============
+[![Build Status](https://travis-ci.org/victims/victims-client.png)](https://travis-ci.org/victims/victims-client)
 
 Reference victims client.
 
