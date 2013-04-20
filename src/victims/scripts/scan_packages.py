@@ -81,6 +81,9 @@ def main():
                     # copies of the same package ... I'm looking at you JAVA)
                     for package in packages[result.hash]:
                         print(str(package) + ": " + result.cves)
+                        for cve in result.cves.split(','):
+                            for name, cveurl in conf['cveurls'].items():
+                                print "- %s: %s" % (name, (cveurl % cve))
         except sqlalchemy.exc.OperationalError, oe:
             print("\nError occured (bad database?)\n\nError:\n" + str(oe))
             raise SystemExit(INTERNAL_ERROR_EXIT)
